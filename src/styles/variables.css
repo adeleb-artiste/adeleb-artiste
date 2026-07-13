@@ -1,0 +1,35 @@
+:root {
+
+  /* Couleurs */
+
+  --background: #faf8f5;
+  --text: #222222;
+  --text-light: #6b6b6b;
+  --text-muted: #8d8d8d;
+
+  /* Largeur */
+
+  --max-width: 1400px;
+  --page-padding: 2rem;
+
+  /* Espacements */
+
+  --space-xs: .5rem;
+  --space-s: 1rem;
+  --space-m: 2rem;
+  --space-l: 4rem;
+  --space-xl: 8rem;
+
+  /* Typographie */
+
+  --font-logo: clamp(2.3rem, 3vw, 2.8rem);
+  --font-menu: clamp(.95rem, 1vw, 1.05rem);
+  --font-title: clamp(1.4rem, 2vw, 1.8rem);
+  --font-body: clamp(1rem, 1.2vw, 1.1rem);
+  --font-quote: clamp(1.2rem, 2vw, 1.6rem);
+
+  /* Animations */
+
+  --transition: .25s ease;
+
+}

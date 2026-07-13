@@ -1,0 +1,164 @@
+---
+import { artworks } from "../../data/artworks";
+
+const viewerArtworks = artworks.map((artwork) => ({
+  id: artwork.id,
+  title: artwork.title,
+  technique: artwork.technique,
+  dimensions: artwork.dimensions,
+  year: artwork.year,
+  status: artwork.status,
+  images: [artwork.images.main, ...artwork.images.details],
+}));
+---
+
+<div class="artwork-viewer" data-artwork-viewer data-artworks={JSON.stringify(viewerArtworks)} aria-hidden="true" role="dialog" aria-modal="true" aria-label="Visualiseur d'oeuvre">
+  <button class="viewer-close" type="button" aria-label="Fermer le visualiseur">&times;</button>
+  <button class="viewer-navigation viewer-previous" type="button" aria-label="Vue precedente">&larr;</button>
+  <figure class="viewer-content">
+    <img class="viewer-image" src="" alt="" />
+    <figcaption class="viewer-caption"></figcaption>
+  </figure>
+  <button class="viewer-navigation viewer-next" type="button" aria-label="Vue suivante">&rarr;</button>
+</div>
+
+<script>
+  interface ViewerArtwork {
+    id: string;
+    title: string;
+    technique: string;
+    dimensions: string;
+    year: number;
+    status?: string;
+    images: string[];
+  }
+
+  interface ArtworkViewerOpenDetail {
+    artworkIds: string[];
+    artworkId: string;
+    imageIndex: number;
+    includeDetails?: boolean;
+  }
+
+  const openEventName = "artwork-viewer:open";
+  const viewer = document.querySelector<HTMLElement>("[data-artwork-viewer]");
+
+  if (!viewer) throw new Error("ArtworkViewer introuvable.");
+
+  const viewerArtworks: ViewerArtwork[] = JSON.parse(viewer.dataset.artworks ?? "[]");
+
+  const image = viewer.querySelector<HTMLImageElement>(".viewer-image");
+  const caption = viewer.querySelector<HTMLElement>(".viewer-caption");
+  const closeButton = viewer.querySelector<HTMLButtonElement>(".viewer-close");
+  const previousButton = viewer.querySelector<HTMLButtonElement>(".viewer-previous");
+  const nextButton = viewer.querySelector<HTMLButtonElement>(".viewer-next");
+
+  if (!image || !caption || !closeButton || !previousButton || !nextButton) {
+    throw new Error("Structure ArtworkViewer incomplete.");
+  }
+
+  let artworkIndex = 0;
+  let imageIndex = 0;
+  let opener: HTMLElement | null = null;
+  let activeArtworks: ViewerArtwork[] = [];
+
+  const render = () => {
+    const artwork: ViewerArtwork = activeArtworks[artworkIndex];
+    image.src = artwork.images[imageIndex];
+    image.alt = imageIndex === 0 ? artwork.title : `Detail de ${artwork.title}`;
+    caption.innerHTML = `<em>${artwork.title}</em><br>${artwork.technique} · ${artwork.dimensions} · ${artwork.year}${artwork.status ? ` · ${artwork.status}` : ""}`;
+  };
+
+  const open = (artworkIds: string[], artworkId: string, requestedImageIndex = 0, includeDetails = true) => {
+    activeArtworks = artworkIds
+      .map((id) => viewerArtworks.find((artwork) => artwork.id === id))
+      .filter((artwork): artwork is ViewerArtwork => Boolean(artwork))
+      .map((artwork) => ({
+        ...artwork,
+        images: includeDetails ? artwork.images : artwork.images.slice(0, 1),
+      }));
+
+    const foundArtworkIndex = activeArtworks.findIndex((artwork) => artwork.id === artworkId);
+    if (foundArtworkIndex === -1) return;
+
+    artworkIndex = foundArtworkIndex;
+    imageIndex = Math.max(0, Math.min(requestedImageIndex, activeArtworks[artworkIndex].images.length - 1));
+    opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    render();
+    viewer.classList.add("is-open");
+    viewer.setAttribute("aria-hidden", "false");
+    document.body.classList.add("artwork-viewer-open");
+    closeButton.focus();
+  };
+
+  const close = () => {
+    viewer.classList.remove("is-open");
+    viewer.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("artwork-viewer-open");
+    image.src = "";
+    opener?.focus();
+  };
+
+  const move = (direction: 1 | -1) => {
+    const currentArtwork = activeArtworks[artworkIndex];
+    const nextImageIndex = imageIndex + direction;
+
+    if (nextImageIndex >= 0 && nextImageIndex < currentArtwork.images.length) {
+      imageIndex = nextImageIndex;
+    } else {
+      artworkIndex = (artworkIndex + direction + activeArtworks.length) % activeArtworks.length;
+      imageIndex = direction === 1 ? 0 : activeArtworks[artworkIndex].images.length - 1;
+    }
+    render();
+  };
+
+  document.addEventListener(openEventName, (event) => {
+    const { artworkIds, artworkId, imageIndex: requestedImageIndex = 0, includeDetails = true } = (event as CustomEvent<ArtworkViewerOpenDetail>).detail;
+    open(artworkIds, artworkId, requestedImageIndex, includeDetails);
+  });
+
+  document.addEventListener("click", (event) => {
+    const trigger = (event.target as Element).closest<HTMLElement>("[data-artwork-viewer-open]");
+    if (!trigger) return;
+
+    event.preventDefault();
+    const artworkIds = JSON.parse(trigger.dataset.artworkIds ?? "[]") as string[];
+
+    document.dispatchEvent(new CustomEvent<ArtworkViewerOpenDetail>(openEventName, {
+      detail: {
+        artworkIds,
+        artworkId: trigger.dataset.artworkId ?? "",
+        imageIndex: Number(trigger.dataset.imageIndex ?? "0"),
+        includeDetails: trigger.dataset.artworkViewerIncludeDetails !== "false",
+      },
+    }));
+  });
+
+  closeButton.addEventListener("click", close);
+  previousButton.addEventListener("click", () => move(-1));
+  nextButton.addEventListener("click", () => move(1));
+  viewer.addEventListener("click", (event) => { if (event.target === viewer) close(); });
+
+  document.addEventListener("keydown", (event) => {
+    if (!viewer.classList.contains("is-open")) return;
+    if (event.key === "Escape") close();
+    if (event.key === "ArrowLeft") move(-1);
+    if (event.key === "ArrowRight") move(1);
+  });
+</script>
+
+<style>
+  .artwork-viewer { position: fixed; inset: 0; z-index: 1000; display: none; align-items: center; justify-content: center; padding: 4.5rem 5.5rem 2rem; background: rgba(0, 0, 0, 0.94); }
+  .artwork-viewer.is-open { display: flex; }
+  .viewer-content { display: grid; max-width: min(100%, 1100px); max-height: 100%; margin: 0; gap: 1rem; text-align: center; }
+  .viewer-image { display: block; max-width: 100%; max-height: calc(100vh - 10rem); margin: auto; object-fit: contain; }
+  .viewer-caption { color: white; font-size: 0.9rem; line-height: 1.5; }
+  .viewer-close, .viewer-navigation { position: absolute; border: 0; color: white; background: transparent; cursor: pointer; }
+  .viewer-close { top: 1.25rem; right: 1.5rem; font-size: 2.5rem; line-height: 1; }
+  .viewer-navigation { top: 50%; padding: 0.75rem; font-size: 2rem; transform: translateY(-50%); }
+  .viewer-previous { left: 1rem; }
+  .viewer-next { right: 1rem; }
+  .viewer-close:focus-visible, .viewer-navigation:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+  :global(body.artwork-viewer-open) { overflow: hidden; }
+  @media (max-width: 700px) { .artwork-viewer { padding: 4rem 3.25rem 1.5rem; } .viewer-image { max-height: calc(100vh - 8rem); } .viewer-navigation { padding: 0.5rem; font-size: 1.5rem; } .viewer-previous { left: 0.25rem; } .viewer-next { right: 0.25rem; } }
+</style>

@@ -1,0 +1,234 @@
+---
+import { artworks } from "../../data/artworks";
+
+const galleryArtworks = artworks.filter(
+    artwork => artwork.status === "Disponible"
+);
+
+const galleryArtworkIds = galleryArtworks.map((artwork) => artwork.id);
+---
+
+<section id="galerie" class="gallery section container">
+
+    <header class="section-header">
+
+        <h2>Galerie</h2>
+
+        <div class="section-divider"></div>
+
+    </header>
+
+    <div class="gallery-wrapper">
+
+    <button class="gallery-arrow left" aria-label="Précédent">
+        ‹
+    </button>
+
+    <div class="gallery-track">
+
+        {
+            galleryArtworks.map((artwork) => (
+
+                <button
+                    class="gallery-item"
+                    type="button"
+                    data-artwork-viewer-open
+                    data-artwork-ids={JSON.stringify(galleryArtworkIds)}
+                    data-artwork-id={artwork.id}
+                    data-image-index="0"
+                    data-artwork-viewer-include-details="false"
+                >
+
+                    <img
+                        src={artwork.images.main}
+                        alt={artwork.title}
+                    />
+
+                </button>
+
+            ))
+        }
+
+     </div>
+
+    <button class="gallery-arrow right" aria-label="Suivant">
+        ›
+    </button>
+
+</div>
+
+</section>
+
+<style>
+.gallery{
+
+    padding-block:var(--space-xl);
+
+}
+
+.gallery-wrapper{
+
+    position:relative;
+
+}
+
+.gallery-arrow{
+
+    position:absolute;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:42px;
+
+    height:42px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(250,248,245,.9);
+
+    backdrop-filter:blur(6px);
+
+    cursor:pointer;
+
+    font-size:2rem;
+
+    color:var(--text);
+
+    opacity:0;
+
+    transition:.25s;
+
+    z-index:2;
+
+}
+
+.gallery-wrapper:hover .gallery-arrow{
+
+    opacity:1;
+
+}
+
+.gallery-arrow.left{
+
+    left:-20px;
+
+}
+
+.gallery-arrow.right{
+
+    right:-20px;
+
+}
+
+.gallery-track{
+
+    display:flex;
+
+    gap:2rem;
+
+    overflow-x:auto;
+
+    padding:1rem 0 2rem;
+
+    scroll-behavior:smooth;
+
+    scroll-snap-type:x proximity;
+
+    -ms-overflow-style:none;
+
+    scrollbar-width:thin;
+    scrollbar-color:rgba(0,0,0,.18) transparent;
+
+}
+
+.gallery-track::-webkit-scrollbar{
+
+    height:6px;
+
+}
+
+.gallery-track::-webkit-scrollbar-thumb{
+
+    background:rgba(0,0,0,.18);
+
+    border-radius:999px;
+
+}
+
+.gallery-track::-webkit-scrollbar-thumb:hover{
+
+    background:rgba(0,0,0,.28);
+
+}
+
+.gallery-item{
+
+    flex:0 0 auto;
+
+    padding:0;
+
+    border:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    scroll-snap-align:start;
+
+    transition:transform .25s ease;
+
+}
+
+.gallery-item:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.gallery-item img{
+
+    width:240px;
+
+    aspect-ratio:1;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+</style>
+
+<script>
+
+const gallery=document.querySelector(".gallery-track");
+
+document.querySelector(".gallery-arrow.left")?.addEventListener("click",()=>{
+
+    gallery?.scrollBy({
+
+        left:-320,
+
+        behavior:"smooth"
+
+    });
+
+});
+
+document.querySelector(".gallery-arrow.right")?.addEventListener("click",()=>{
+
+    gallery?.scrollBy({
+
+        left:320,
+
+        behavior:"smooth"
+
+    });
+
+});
+
+</script>

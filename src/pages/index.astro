@@ -1,11 +1,62 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import Landing from '../components/sections/Landing.astro';
+import Header from '../components/layout/Header.astro';
 import Layout from '../layouts/Layout.astro';
+import FeaturedArtwork from "../components/sections/FeaturedArtwork.astro";
+import { artworks } from "../data/artworks";
+import ArtworkSeries from "../components/sections/ArtworkSeries.astro";
+import Statement from "../components/sections/Statement.astro";
+import Exhibitions from "../components/sections/Exhibitions.astro";
+import Contact from "../components/sections/Contact.astro";
+import Gallery from "../components/sections/Gallery.astro";
+
+const featuredArtworks = artworks.filter(
+  artwork => artwork.section === "featured"
+);
+
+const rapacesNocturnes = artworks.filter(
+  artwork => artwork.series === "rapaces-nocturnes"
+);
+
+const eclatsSylvestres = artworks.filter(
+  artwork => artwork.series === "eclats-sylvestres"
+);
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+	<Header />
+	<Landing />
+		<section id="oeuvres">
+			{
+				featuredArtworks.map((artwork, index) => (
+					<FeaturedArtwork
+					artwork={artwork}
+					artworkIds={featuredArtworks.map((featuredArtwork) => featuredArtwork.id)}
+					isLast={index === featuredArtworks.length - 1}
+					/>
+				))
+			}
+		</section>
+
+		<ArtworkSeries
+			seriesName="Rapaces nocturnes"
+			artworks={rapacesNocturnes}
+		/>
+
+		<ArtworkSeries
+			seriesName="Éclats sylvestres"
+			artworks={eclatsSylvestres}
+		/>
+
+		<Statement />
+
+		<Exhibitions />
+
+		<Gallery />
+
+		<Contact />
+
 </Layout>

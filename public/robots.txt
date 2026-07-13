@@ -1,0 +1,5 @@
+User-agent: *
+
+Allow: /
+
+Sitemap: https://adeleb-artiste.com/sitemap-index.xml

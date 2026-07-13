@@ -1,0 +1,94 @@
+---
+import type { Artwork } from "../../data/artworks";
+
+interface Props {
+  artwork: Artwork;
+  artworkIds: string[];
+  isLast: boolean;
+}
+
+const { artwork, artworkIds } = Astro.props;
+---
+
+<section class="featured-artwork container">
+  <div class="artwork-wrapper">
+    <div class={`artwork-display ${artwork.orientation}`}>
+      <button class="artwork-image-button" type="button" data-artwork-viewer-open data-artwork-ids={JSON.stringify([artwork.id])} data-artwork-id={artwork.id} data-image-index="0">
+        <img class="main-image" src={artwork.images.main} alt={artwork.title} />
+      </button>
+
+      {artwork.images.details.length > 0 && (
+        <div class="detail-images">
+          {artwork.images.details.map((detail, index) => (
+            <button class="artwork-image-button" type="button" data-artwork-viewer-open data-artwork-ids={JSON.stringify([artwork.id])} data-artwork-id={artwork.id} data-image-index={index + 1}>
+              <img src={detail} alt={`Detail de ${artwork.title}`} />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <div class="artwork-caption">
+      <p class="artwork-info">
+        <em>{artwork.title}</em><br />
+        {artwork.technique} · {artwork.dimensions} · {artwork.year}
+        {artwork.status ? ` · ${artwork.status}` : ""}
+      </p>
+    </div>
+  </div>
+  <div class="featured-divider"></div>
+</section>
+
+<style>
+  .featured-artwork { padding-block: clamp(4rem, 8vw, 8rem); }
+  .featured-artwork img { display: block; margin: auto; max-width: 100%; max-height: 80vh; width: auto; height: auto; object-fit: contain; }
+  .artwork-caption { margin-top: 1.5rem; }
+  .artwork-info { margin: 0; text-align: center; color: var(--text-muted); font-size: .9rem; line-height: 1.3; }
+  .artwork-info em { display: block; margin-bottom: .25rem; font-family: "Bellefair", serif; font-size: clamp(1.4rem, 2vw, 1.8rem); font-style: italic; color: var(--text); }
+  .featured-divider { width: 100%; max-width: 220px; height: 1px; margin: clamp(4rem, 8vw, 6rem) auto 0; background: rgba(0, 0, 0, .08); }
+  .artwork-display { display: flex; justify-content: center; align-items: flex-start; gap: 2rem; }
+  .main-image { max-height: min(80vh, 900px); }
+  .detail-images { display: flex; flex-direction: column; justify-content: space-between; height: 80vh; max-height: 80vh; }
+  .detail-images img { width: 180px; height: calc((80vh - 2rem) / 3); object-fit: cover; }
+  .artwork-display.landscape { flex-direction: column; align-items: center; }
+  .artwork-display.landscape .detail-images { flex-direction: row; justify-content: center; }
+  .artwork-image-button { padding: 0; margin: 0; border: 0; background: none; cursor: pointer; }
+  .artwork-wrapper { display: flex; flex-direction: column; align-items: center; }
+  @media (max-width:900px){
+
+  .artwork-display{
+
+      flex-direction:column !important;
+
+      align-items:center;
+
+  }
+
+  .detail-images{
+
+      flex-direction:column !important;
+
+      height:auto;
+
+      max-height:none;
+
+      gap:1rem;
+
+      margin-top:1.5rem;
+
+  }
+
+  .detail-images img{
+
+      width:min(100%,320px);
+
+      height:auto;
+
+      aspect-ratio:4/3;
+
+      object-fit:cover;
+
+  }
+
+}
+</style>

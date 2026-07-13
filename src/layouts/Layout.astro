@@ -1,23 +1,83 @@
+---
+import "../styles/variables.css";
+import "../styles/global.css";
+import ArtworkViewer from "../components/ui/ArtworkViewer.astro";
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Adèle B. | Artiste peintre contemporaine</title>
+
+    <meta
+        name="description"
+        content="Découvrez l'univers d'Adèle B., artiste peintre contemporaine. Œuvres originales, grands formats, séries, expositions et contact."
+    />
+
+    <meta name="author" content="Adèle B." />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="canonical" href="https://adeleb-artiste.com/" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Open Graph -->
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Adèle B." />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:url" content="https://adeleb-artiste.com/" />
+
+    <meta
+        property="og:title"
+        content="Adèle B. | Artiste peintre contemporaine"
+    />
+
+    <meta
+        property="og:description"
+        content="Découvrez les œuvres originales d'Adèle B., artiste peintre contemporaine."
+    />
+
+    <meta
+        property="og:image"
+        content="Détail d'une œuvre d'Adèle B."
+    />
+
+    <meta
+        property="og:image:alt"
+        content="Nymphéas pour Sophie, œuvre d'Adèle B."
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bellefair&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
+    <script type="application/ld+json" is:inline>
+    {JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Adèle B.",
+    alternateName: "Adèle Baldenweck",
+    jobTitle: "Artiste peintre",
+    url: "https://adeleb-artiste.com",
+    image: "https://adeleb-artiste.com/images/opengraph.jpg",
+    email: "mailto:adeleb.artiste@gmail.com",
+    sameAs: [
+        "https://www.instagram.com/adbaleine/"
+    ]
+    })}
+    </script>
+
+</head>
 	<body>
 		<slot />
+		<ArtworkViewer />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

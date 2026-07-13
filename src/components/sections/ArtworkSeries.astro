@@ -1,0 +1,38 @@
+---
+import type { Artwork } from "../../data/artworks";
+
+interface Props {
+  seriesName: string;
+  artworks: Artwork[];
+}
+
+const { seriesName, artworks } = Astro.props;
+const artworkIds = artworks.map((artwork) => artwork.id);
+---
+
+<section class="artwork-series container">
+  <header class="series-header"><h2>{seriesName}</h2><div class="series-divider"></div></header>
+  <div class="series-grid">
+    {artworks.map((artwork) => (
+      <article class="series-item">
+        <button class="series-image-button" type="button" data-artwork-viewer-open data-artwork-ids={JSON.stringify(artworkIds)} data-artwork-id={artwork.id} data-image-index="0">
+          <img src={artwork.images.main} alt={artwork.title} />
+        </button>
+        <p class="artwork-info"><em>{artwork.title}</em><br />{artwork.technique} · {artwork.dimensions} · {artwork.year}</p>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .artwork-series { padding-top: var(--space-l); padding-bottom: var(--space-xl); }
+  .series-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .series-image-button { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+  .series-item img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .artwork-info { margin-top: .6rem; text-align: center; color: var(--text-muted); font-size: .9rem; line-height: 1.5; }
+  .artwork-info em { display: block; margin-bottom: .3rem; font-family: "Bellefair", serif; font-size: 1.35rem; font-style: italic; color: var(--text); }
+  .series-header { margin-bottom: 3rem; }
+  .series-header h2 { margin: 0; text-align: left; font-family: "Bellefair", serif; font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 400; }
+  .series-divider { width: 220px; height: 1px; margin: 1rem 0 0; background: rgba(0, 0, 0, .08); }
+  @media (max-width: 900px) { .series-grid { grid-template-columns: 1fr; } }
+</style>

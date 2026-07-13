@@ -1,0 +1,36 @@
+---
+import { artworks } from "../../data/artworks";
+
+const artwork = artworks.find((item) => item.section === "landing");
+
+if (!artwork) {
+  throw new Error("Aucune oeuvre avec la section landing n'a ete trouvee.");
+}
+---
+
+<section class="hero container">
+  <button class="hero-image" type="button" data-artwork-viewer-open data-artwork-ids={JSON.stringify([artwork.id])} data-artwork-id={artwork.id} data-image-index="0">
+    <img src={artwork.images.main} alt={artwork.title} />
+  </button>
+
+  <div class="hero-caption">
+    <p class="artwork-info"><em>{artwork.title}</em><br />{artwork.technique} · {artwork.dimensions} · {artwork.year}{artwork.status ? ` · ${artwork.status}` : ""}</p>
+    <blockquote>Le motif est quelque chose de secondaire, ce que je veux reproduire, c'est ce qu'il y a entre le motif et moi.</blockquote>
+    <p class="author">Claude Monet</p>
+    <a href="#oeuvres" class="discover" aria-label="Decouvrir les oeuvres">&#8595;</a>
+  </div>
+</section>
+
+<style>
+  .hero{ padding-top:7rem; padding-bottom:var(--space-l); background:var(--background); min-height:100vh; display:flex; flex-direction:column; justify-content:center;}
+  .hero-image { display: flex; justify-content: center; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+  .hero-image img { max-width: 100%; max-height: 80vh; width: auto; height: auto; object-fit: contain; border-radius: 4px; }
+  .hero-caption { max-width: 700px; margin: 2rem auto 0; text-align: center; }
+  .artwork-info { margin: 0 0 3rem; text-align: right; color: var(--text-light); font-size: .88rem; line-height: 1.5; }
+  .artwork-info em { font-family: "Bellefair", serif; font-size: 1.55rem; font-style: italic; color: var(--text); }
+  .author { margin-top: 1rem; text-align: right; color: var(--text-light); }
+  .discover { display: block; margin-top: 4rem; color: var(--text-light); font-size: 1.5rem; text-align: center; text-decoration: none; }
+  .discover:hover { color: var(--text); }
+  .hero-caption blockquote { margin: 0; color: var(--text-light); font-family: "Bellefair", serif; font-size: 1.5rem; font-style: italic; line-height: 1.6; }
+  @media (max-width: 900px) { .hero{ padding:6.5rem 1.5rem 2rem;} }
+</style>

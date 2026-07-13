@@ -1,0 +1,137 @@
+---
+import { exhibitions } from "../../data/exhibitions";
+---
+
+<section id="expositions" class="exhibitions section container">
+
+    <header class="section-header">
+
+        <h2>Expositions</h2>
+
+        <div class="section-divider"></div>
+
+    </header>
+
+    <div class="timeline">
+
+        {
+            exhibitions.map((exhibition) => (
+
+                <article class={`timeline-item ${exhibition.featured ? "featured" : ""}`}>
+
+                    <div class="timeline-year">
+
+                        {exhibition.year}
+
+                    </div>
+
+                    <div class="timeline-content">
+
+                        <h3>{exhibition.title}</h3>
+
+                        <p>
+
+                            {exhibition.location}<br>
+
+                            {exhibition.dates}
+
+                        </p>
+
+                    </div>
+
+                </article>
+
+            ))
+        }
+
+    </div>
+
+</section>
+
+<style>
+        .exhibitions{
+
+        padding-block:var(--space-xl);
+
+    }
+
+    .timeline{
+
+        display:flex;
+
+        flex-direction:column;
+
+        gap:3rem;
+
+    }
+
+    .timeline-item{
+
+        display:grid;
+
+        grid-template-columns:120px 1fr;
+
+        gap:2rem;
+
+        align-items:start;
+
+    }
+
+    .timeline-year{
+
+        font-family:"Bellefair",serif;
+
+        font-size:2rem;
+
+        color:var(--text-muted);
+
+    }
+
+    .timeline-content h3{
+
+        margin:0 0 .5rem;
+
+        font-family:"Bellefair",serif;
+
+        font-size:1.5rem;
+
+        font-weight:400;
+
+    }
+
+    .timeline-content p{
+
+        margin:0;
+
+        line-height:1.7;
+
+        color:var(--text-light);
+
+    }
+
+
+        .timeline-item.featured{
+
+        padding-bottom:2rem;
+
+        margin-bottom:2rem;
+
+        border-bottom:1px solid rgba(0,0,0,.08);
+
+    }
+
+    .timeline-item.featured .timeline-year{
+
+        color:var(--text);
+
+    }
+
+    .timeline-item.featured h3{
+
+        font-size:1.75rem;
+
+    }
+
+
+
+</style>
