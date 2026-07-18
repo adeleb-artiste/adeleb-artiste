@@ -1,3 +1,4 @@
+
 export interface Artwork {
   id: string;
 
@@ -17,10 +18,10 @@ export interface Artwork {
 
   series?: string;
 
-  images: {
+    images: {
     main: string;
     details: string[];
-  };
+  }
 }
 
 export const artworks: Artwork[] = [
