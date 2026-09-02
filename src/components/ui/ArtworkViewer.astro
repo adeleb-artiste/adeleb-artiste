@@ -8,6 +8,7 @@ const viewerArtworks = artworks.map((artwork) => ({
   dimensions: artwork.dimensions,
   year: artwork.year,
   status: artwork.status,
+  price: artwork.price,
   images: [artwork.images.main, ...artwork.images.details],
 }));
 ---
@@ -30,6 +31,7 @@ const viewerArtworks = artworks.map((artwork) => ({
     dimensions: string;
     year: number;
     status?: string;
+    price?: number;
     images: string[];
   }
 
@@ -66,7 +68,8 @@ const viewerArtworks = artworks.map((artwork) => ({
     const artwork: ViewerArtwork = activeArtworks[artworkIndex];
     image.src = artwork.images[imageIndex];
     image.alt = imageIndex === 0 ? artwork.title : `Detail de ${artwork.title}`;
-    caption.innerHTML = `<em>${artwork.title}</em><br>${artwork.technique} · ${artwork.dimensions} · ${artwork.year}${artwork.status ? ` · ${artwork.status}` : ""}`;
+    const priceText = typeof artwork.price === "number"? ` · ${new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(artwork.price)}`: "";
+    caption.innerHTML = `<em>${artwork.title}</em><br>${artwork.technique} · ${artwork.dimensions} · ${artwork.year}${artwork.status ? ` · ${artwork.status}` : ""}${priceText}`;
   };
 
   const open = (artworkIds: string[], artworkId: string, requestedImageIndex = 0, includeDetails = true) => {

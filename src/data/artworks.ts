@@ -12,6 +12,8 @@ export interface Artwork {
 
   status?: string;
 
+  price?: number;
+
   section: "landing" | "featured" | "gallery";
 
   orientation?: "landscape" | "portrait" | "square";
@@ -88,6 +90,8 @@ export const artworks: Artwork[] = [
     year: 2025,
 
     status: "Disponible",
+
+    price : 350,
 
     section: "featured",
 
@@ -166,6 +170,8 @@ export const artworks: Artwork[] = [
 
     status: "Disponible",
 
+    price : 120,
+
     section: "gallery",
 
     orientation: "square",
@@ -190,6 +196,8 @@ export const artworks: Artwork[] = [
     year: 2026,
 
     status: "Disponible",
+
+    price : 110,
 
     section: "gallery",
 
@@ -216,6 +224,8 @@ export const artworks: Artwork[] = [
 
     status: "Disponible",
 
+    price : 110,
+
     section: "gallery",
 
     orientation: "square",
@@ -240,6 +250,8 @@ export const artworks: Artwork[] = [
     year: 2026,
 
     status: "Disponible",
+
+    price : 110,
 
     section: "gallery",
 
@@ -266,6 +278,8 @@ export const artworks: Artwork[] = [
 
     status: "Disponible",
 
+    price : 100,
+
     section: "gallery",
 
     orientation: "portrait",
@@ -288,6 +302,8 @@ export const artworks: Artwork[] = [
     year: 2026,
 
     status: "Disponible",
+
+    price : 150,
 
     section: "gallery",
 
@@ -312,6 +328,8 @@ export const artworks: Artwork[] = [
 
     status: "Disponible",
 
+    price : 130,
+
     section: "gallery",
 
     orientation: "square",
@@ -334,6 +352,8 @@ export const artworks: Artwork[] = [
     year: 2024,
 
     status: "Disponible",
+
+    price : 120,
 
     section: "gallery",
 
@@ -358,6 +378,8 @@ export const artworks: Artwork[] = [
 
     status: "Disponible",
 
+    price : 140,
+
     section: "gallery",
 
     orientation: "portrait",
@@ -380,6 +402,8 @@ export const artworks: Artwork[] = [
     year: 2024,
 
     status: "Disponible",
+
+    price : 150,
 
     section: "gallery",
 
