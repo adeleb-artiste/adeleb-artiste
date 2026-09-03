@@ -1,0 +1,177 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+    <main class="legal-page">
+        <div class="legal-header">
+            <p class="eyebrow">INFORMATIONS</p>
+            <h1>Mentions légales</h1>
+        </div>
+
+        <div class="legal-content">
+            <section>
+                <h2>Éditeur du site</h2>
+                <p>
+                    Le présent site est édité par <strong>Adèle Baldenweck</strong>,
+                    artiste.
+                </p>
+                <p>
+                    <a href="mailto:adele.artiste@gmail.com">
+                        adele.artiste@gmail.com
+                    </a>
+                </p>
+            </section>
+
+            <section>
+                <h2>Hébergement</h2>
+                <p>
+                    Le site est hébergé par <strong>Vercel Inc.</strong>
+                </p>
+                <p>
+                    340 S Lemon Ave #4133<br />
+                    Walnut, CA 91789<br />
+                    États-Unis
+                </p>
+                <p>
+                    <a
+                        href="https://vercel.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        vercel.com
+                    </a>
+                </p>
+            </section>
+
+            <section>
+                <h2>Nom de domaine</h2>
+                <p>
+                    Le nom de domaine <strong>adeleb-artiste.com</strong> est
+                    actuellement enregistré auprès de Wix.com.
+                </p>
+            </section>
+
+            <section>
+                <h2>Propriété intellectuelle</h2>
+                <p>
+                    L'ensemble des contenus présents sur ce site, notamment les
+                    textes, photographies des œuvres, éléments graphiques et
+                    créations artistiques, est protégé par les dispositions
+                    relatives à la propriété intellectuelle.
+                </p>
+                <p>
+                    Sauf mention contraire, ces contenus sont la propriété
+                    d'Adèle Baldenweck. Toute reproduction, représentation,
+                    modification, adaptation ou utilisation, totale ou partielle,
+                    sans autorisation préalable est interdite.
+                </p>
+            </section>
+
+            <section>
+                <h2>Liens externes</h2>
+                <p>
+                    Le site contient un lien vers le compte Instagram d'Adèle B.
+                    Les contenus et le fonctionnement d'Instagram sont soumis
+                    aux conditions d'utilisation et à la politique de
+                    confidentialité de ce service.
+                </p>
+            </section>
+
+            <section>
+                <h2>Mise à jour</h2>
+                <p>
+                    Les présentes mentions légales peuvent être modifiées afin
+                    de tenir compte de l'évolution du site ou de la réglementation
+                    applicable.
+                </p>
+            </section>
+        </div>
+    </main>
+</Layout>
+
+<style>
+    .legal-page {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 10rem 2rem 8rem;
+    }
+
+    .legal-header {
+        margin-bottom: 6rem;
+    }
+
+    .eyebrow {
+        margin: 0 0 1rem;
+        font-family: "Inter", sans-serif;
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        opacity: 0.55;
+    }
+
+    h1 {
+        margin: 0;
+        font-family: "Bellefair", serif;
+        font-size: clamp(3rem, 7vw, 5.5rem);
+        font-weight: 400;
+        line-height: 0.95;
+    }
+
+    .legal-content {
+        display: flex;
+        flex-direction: column;
+        gap: 3.5rem;
+    }
+
+    section {
+        padding-top: 2rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    h2 {
+        margin: 0 0 1.2rem;
+        font-family: "Bellefair", serif;
+        font-size: 1.8rem;
+        font-weight: 400;
+    }
+
+    p {
+        max-width: 650px;
+        margin: 0 0 0.9rem;
+        font-family: "Inter", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.8;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+        border-bottom: 1px solid currentColor;
+        transition: opacity 0.2s ease;
+    }
+
+    a:hover {
+        opacity: 0.55;
+    }
+
+    @media (max-width: 600px) {
+        .legal-page {
+            padding: 7rem 1.5rem 5rem;
+        }
+
+        .legal-header {
+            margin-bottom: 4rem;
+        }
+
+        .legal-content {
+            gap: 2.8rem;
+        }
+
+        section {
+            padding-top: 1.5rem;
+        }
+    }
+</style>
